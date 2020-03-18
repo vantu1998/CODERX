@@ -1,0 +1,13 @@
+.container{
+    display: flex;
+    justify-content: space-around ;
+}
+#listItem{
+    list-style: none;
+}
+#listItem li{
+    margin-top:10px;
+    padding: 5px;
+    background-color: rgb(250, 247, 253);
+    font-size: 18px;
+}

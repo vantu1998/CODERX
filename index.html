@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+</head>
+<body>
+    <div class="container">
+        <div class="add">
+            <input id="textinput" type="text">
+            <button onclick="addToDb()">ADD</button>
+        </div>
+        <div class="show">
+            <ul id="listItem">
+
+            </ul>
+        </div>
+        <div class="delete">
+            <input id="idDelete" type="text">
+            <button onclick="remove()">Delete</button>
+        </div>
+    </div>
+
+    <script>
+        var input=document.getElementById('textinput');
+        var listItem=document.getElementById("listItem");
+        var idDelete = document.getElementById('idDelete');
+        var url = 'http://localhost:9081/book';
+        var data=[];
+        function getData(){
+            axios.get(url).then(function(res){
+                data = res.data;
+                console.log(data);
+                render(data);
+            })
+        }
+        function render(data){
+            content = data.map(function(item){
+                return '<li>' + item.id + "   " + item.name +'</li>';
+            })
+            listItem.innerHTML = content.join("");
+            console.log(content.join(""));  
+            }
+
+        getData();
+        var tmp;
+        function addToDb(){
+            tmp = {"name": input.value};
+            axios.post(url,tmp);
+            getData();
+            input.value=null;
+           
+        }
+        function remove(){
+            var id = idDelete.value;
+            axios.delete(url+'/'+id);
+            idDelete.value=null;
+            getData();
+        }
+    </script>
+</body>
+</html>
